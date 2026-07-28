@@ -38,6 +38,5 @@ It isn't designed to be friendly, automatic, or cozy. It's built for those who w
 ---
 
 <p align="center">
-  <i>You will loose your personal life if you install this distribution</i>
-  <i>You have been warned!!</i>
+  <i>You will loose your personal life if you install this distribution.<br>You have been warned!!</i>
 </p>
