@@ -38,5 +38,6 @@ It isn't designed to be friendly, automatic, or cozy. It's built for those who w
 ---
 
 <p align="center">
-  <i>No Personal Life? No Problem. Just Pure Linux.</i>
+  <i>You will loose your personal life if you install this distribution</i>
+  <i>You have been warned!!</i>
 </p>
