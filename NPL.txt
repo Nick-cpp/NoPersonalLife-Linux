@@ -1,0 +1,229 @@
+### 1. Partition your disk and mount the partitions
+
+# 1. Partitioning the disk using cfdisk
+
+cfdisk /dev/your-disk
+
+Create an 256mb EFI partition
+Swap partiton ( if you want swap partition )
+Root partition
+
+# 2. Formating partitions
+
+mkfs.fat -F 32 /dev/efi-pertition
+mkswap /dev/swap-partition ( if created )
+mkfs.ext4 /dev/root-partition
+
+# 3. Mounting partitions
+
+mount /dev/root-partition /mnt
+
+mkdir /mnt/efi
+
+mount /dev/efi-partition /mnt/efi
+swapon /dev/swap-partition ( if created )
+
+cd /mnt
+
+### 2. Downloadng and extracting the stage archive with the base system
+
+# 1. Downloading the stage archive
+
+wget https://github.com/Nick-cpp/NoPersonalLife-Linux/releases/download/release/stage.tar.gz
+
+# 2. Extracting the stage archive
+
+tar -xzvf stage.tar.gz
+
+### 3. Downloading and extracting needed packages for grub and openssl
+
+cd /mnt/root
+
+# 1. m4
+wget https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz
+tar -xf m4-1.4.19.tar.xz
+
+# 2. flex
+wget https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
+tar -xf flex-2.6.4.tar.gz
+
+# 3. bison
+wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.xz
+tar -xf bison-3.8.2.tar.xz
+
+# 4. gawk
+wget https://ftp.gnu.org/gnu/gawk/gawk-5.3.1.tar.xz
+tar -xf gawk-5.3.1.tar.xz
+
+# 5. libexpat
+wget https://github.com/libexpat/libexpat/releases/download/R_2_6_2/expat-2.6.2.tar.xz
+tar -xf expat-2.6.2.tar.xz
+
+# 6. python
+wget https://www.python.org/ftp/python/3.14.6/Python-3.14.6.tar.xz
+tar -xf Python-3.14.6.tar.xz
+
+# 7. grub
+wget https://ftp.gnu.org/gnu/grub/grub-2.12.tar.xz
+tar -xf grub-2.12.tar.xz
+
+# 8. perl
+wget https://www.cpan.org/src/5.0/perl-5.38.2.tar.gz
+tar -xvf perl-5.38.2.tar.gz
+
+# 9. zlib
+wget https://github.com/madler/zlib/releases/download/v1.3.1/zlib-1.3.1.tar.gz
+tar -xvf zlib-1.3.1.tar.gz
+
+# 10. openssl
+wget https://github.com/openssl/openssl/releases/download/openssl-3.3.0/openssl-3.3.0.tar.gz
+tar -xvf openssl-3.3.0.tar.gz
+
+### 4. Chrooting into the system
+
+# 1. Prepating for chroot
+
+mount -o bind /dev /mnt/dev
+mkdir /mnt/dev/pts
+mount -o bind /dev/pts /mnt/dev/pts
+mount -t proc proc /mnt/proc
+mount -t sysfs sysfs /mnt/sys
+mount -t tmpfs tmpfs /mnt/run 
+
+# 2. Chrooting
+
+chroot /mnt /bin/sh
+source /etc/profile
+
+### 5. Building and installing the packages
+
+# 1. M4
+
+cd m4-1.4.19/
+./configure --prefix=/usr
+make
+make install
+
+# 2. Flex
+
+cd flex-2.6.4/
+LEX=: ./configure --prefix=/usr
+make
+make install
+
+# 3. Bison
+
+cd bison-3.8.2/
+./configure --prefix=/usr
+make
+make install
+
+# 4. Gawk
+
+cd gawk-5.3.1/
+./configure --prefix=/usr
+make
+make install
+
+# 5. Libexpat
+
+cd expat-2.6.2
+./configure --prefix=/usr
+make
+make install
+
+# 6. Python
+
+cd Python-3.14.6
+
+./configure --prefix=/usr       \
+            --enable-shared     \
+            --with-system-expat \
+            --without-ensurepip \
+            --enable-optimizations
+make
+make install
+
+# 7. Grub
+
+cd grub-2.12/
+
+./configure --prefix=/usr          \
+             --sysconfdir=/etc      \
+             -localstatedir=/var   \
+             --disable-werror       \
+             --with-platform=efi    \
+             CFLAGS="-Wno-error=implicit-function-declaration -Wno-error=int-conversion -std=gnu17"
+
+touch grub-core/extra_deps.lst
+
+make
+make install
+
+# 8. perl
+
+cd perl-5.38.2
+
+sh Configure -des \
+             -Dprefix=/usr \
+             -Dvendorprefix=/usr \
+             -Dprivlib=/usr/lib/perl5/5.38/core_perl \
+             -Darchlib=/usr/lib/perl5/5.38/core_perl \
+             -Dsitelib=/usr/lib/perl5/5.38/site_perl \
+             -Dsitearch=/usr/lib/perl5/5.38/site_perl \
+             -Dvendorlib=/usr/lib/perl5/5.38/vendor_perl \
+             -Dvendorarch=/usr/lib/perl5/5.38/vendor_perl \
+             -Duseshrplib \
+             -Dusethreads
+
+make
+make install
+
+# 9. zlib
+
+cd zlib-1.3.1
+
+./configure --prefix=/usr
+
+make
+make install
+
+# 10. openssl
+
+cd openssl-3.3.0
+
+./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
+
+make
+make install
+
+### 6. Making the system bootable
+
+1. Installing grub the bootloader
+
+mkdir -p /efi/EFI/BOOT
+
+grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB --removable --recheck
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# 2. Write the fstab
+
+### 7. Final steps
+
+# 1. Installing a password for root
+
+passwd
+
+# 2. exiting and rebooting
+
+exit
+
+umount /mnt/run
+umount /mnt/sys
+umount /mnt/proc
+umount /mnt/dev/pts
+umount /mnt/dev
+umount /mnt/efi
+umount /mnt
+
+reboot
