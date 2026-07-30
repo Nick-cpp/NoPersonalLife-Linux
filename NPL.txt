@@ -1,4 +1,4 @@
-### 1. Partition your disk and mount the partitions
+### 1. Partitioning the disk and mounting the partitions
 
 # 1. Partitioning the disk using cfdisk
 
