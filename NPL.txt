@@ -29,11 +29,15 @@ cd /mnt
 
 # 1. Downloading the stage archive
 
-wget https://github.com/Nick-cpp/NoPersonalLife-Linux/releases/download/release/stage.tar.gz
+wget https://github.com/Nick-cpp/NoPersonalLife-Linux/releases/download/release/stage.tar.xz.part_1
+
+wget https://github.com/Nick-cpp/NoPersonalLife-Linux/releases/download/release/stage.tar.xz.part_2
+
+cat stage.tar.xz.part_* > stage.tar.xz
 
 # 2. Extracting the stage archive
 
-tar -xzvf stage.tar.gz
+tar -xJvf stage.tar.xz
 
 ### 3. Downloading and extracting needed packages for grub and openssl
 
