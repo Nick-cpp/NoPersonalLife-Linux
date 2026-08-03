@@ -37,13 +37,13 @@ wget https://github.com/Nick-cpp/NoPersonalLife-Linux/releases/download/release/
 
 tar -xJvf stage.tar.xz
 
-### 3. Downloading and extracting needed packages for grub and openssl
+### 3. Downloading and extracting needed packages
 
 cd /mnt/root
 
 # 1. m4
-wget https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz
-tar -xf m4-1.4.19.tar.xz
+wget https://ftp.gnu.org/gnu/m4/m4-1.4.21.tar.xz
+tar -xf m4-1.4.21.tar.xz
 
 # 2. flex
 wget https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
@@ -54,12 +54,12 @@ wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.xz
 tar -xf bison-3.8.2.tar.xz
 
 # 4. gawk
-wget https://ftp.gnu.org/gnu/gawk/gawk-5.3.1.tar.xz
-tar -xf gawk-5.3.1.tar.xz
+wget https://ftp.gnu.org/gnu/gawk/gawk-5.4.1.tar.xz
+tar -xf gawk-5.4.1.tar.xz
 
 # 5. libexpat
-wget https://github.com/libexpat/libexpat/releases/download/R_2_6_2/expat-2.6.2.tar.xz
-tar -xf expat-2.6.2.tar.xz
+wget https://github.com/libexpat/libexpat/releases/download/R_2_8_2/expat-2.8.2.tar.xz
+tar -xf expat-2.8.2.tar.xz
 
 # 6. pkgconf
 wget https://github.com/pkgconf/pkgconf/releases/download/pkgconf-3.0.4/pkgconf-3.0.4.tar.xz
@@ -69,25 +69,25 @@ tar -xf pkgconf-3.0.4.tar.xz
 wget https://ftp.gnu.org/gnu/ncurses/ncurses-6.6.tar.gz
 tar -xf ncurses-6.5.tar.gz
 
-# 8. python
+# 8. perl
+wget https://www.cpan.org/src/5.0/perl-5.44.0.tar.gz
+tar -xf perl-5.44.0.tar.gz
+
+# 9. zlib
+wget https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.gz
+tar -xf zlib-1.3.2.tar.gz
+
+# 10. openssl
+wget https://github.com/openssl/openssl/releases/download/openssl-4.0.1/openssl-4.0.1.tar.gz
+tar -xf openssl-4.0.1.tar.gz
+
+# 11. python
 wget https://www.python.org/ftp/python/3.14.6/Python-3.14.6.tar.xz
 tar -xf Python-3.14.6.tar.xz
 
-# 9. grub
-wget https://ftp.gnu.org/gnu/grub/grub-2.12.tar.xz
-tar -xf grub-2.12.tar.xz
-
-# 10. perl
-wget https://www.cpan.org/src/5.0/perl-5.38.2.tar.gz
-tar -xf perl-5.38.2.tar.gz
-
-# 11. zlib
-wget https://github.com/madler/zlib/releases/download/v1.3.1/zlib-1.3.1.tar.gz
-tar -xf zlib-1.3.1.tar.gz
-
-# 12. openssl
-wget https://github.com/openssl/openssl/releases/download/openssl-3.3.0/openssl-3.3.0.tar.gz
-tar -xf openssl-3.3.0.tar.gz
+# 12. grub
+wget https://ftp.gnu.org/gnu/grub/grub-2.14.tar.xz
+tar -xf grub-2.14.tar.xz
 
 # 13. bash
 wget https://ftp.gnu.org/gnu/bash/bash-5.3.tar.gz
@@ -117,7 +117,7 @@ source /etc/profile
 
 # 1. M4
 
-cd ~/m4-1.4.19/
+cd ~/m4-1.4.21/
 ./configure --prefix=/usr
 make
 make install
@@ -138,14 +138,14 @@ make install
 
 # 4. Gawk
 
-cd ~/gawk-5.3.1/
+cd ~/gawk-5.4.1/
 ./configure --prefix=/usr
 make
 make install
 
 # 5. Libexpat
 
-cd ~/expat-2.6.2
+cd ~/expat-2.8.2
 ./configure --prefix=/usr
 make
 make install
@@ -179,7 +179,44 @@ cd ~/ncurses-6.6
 make
 make install
 
-# 8. Python
+# 8. perl
+
+cd ~/perl-5.44.0
+
+sh Configure -des \
+             -Dprefix=/usr \
+             -Dvendorprefix=/usr \
+             -Dprivlib=/usr/lib/perl5/5.40/core_perl \
+             -Darchlib=/usr/lib/perl5/5.40/core_perl \
+             -Dsitelib=/usr/lib/perl5/5.40/site_perl \
+             -Dsitearch=/usr/lib/perl5/5.40/site_perl \
+             -Dvendorlib=/usr/lib/perl5/5.40/vendor_perl \
+             -Dvendorarch=/usr/lib/perl5/5.40/vendor_perl \
+             -Duseshrplib \
+             -Dusethreads
+
+make
+make install
+
+# 9. zlib
+
+cd ~/zlib-1.3.2
+
+./configure --prefix=/usr
+
+make
+make install
+
+# 10. openssl
+
+cd ~/openssl-4.0.1
+
+./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
+
+make
+make install
+
+# 11. Python
 
 cd ~/Python-3.14.6
 
@@ -191,9 +228,9 @@ cd ~/Python-3.14.6
 make
 make install
 
-# 9. Grub
+# 12. Grub
 
-cd ~/grub-2.12/
+cd ~/grub-2.14/
 
 ./configure --prefix=/usr          \
              --sysconfdir=/etc      \
@@ -203,43 +240,6 @@ cd ~/grub-2.12/
              CFLAGS="-Wno-error=implicit-function-declaration -Wno-error=int-conversion -std=gnu17"
 
 touch grub-core/extra_deps.lst
-
-make
-make install
-
-# 10. perl
-
-cd ~/perl-5.38.2
-
-sh Configure -des \
-             -Dprefix=/usr \
-             -Dvendorprefix=/usr \
-             -Dprivlib=/usr/lib/perl5/5.38/core_perl \
-             -Darchlib=/usr/lib/perl5/5.38/core_perl \
-             -Dsitelib=/usr/lib/perl5/5.38/site_perl \
-             -Dsitearch=/usr/lib/perl5/5.38/site_perl \
-             -Dvendorlib=/usr/lib/perl5/5.38/vendor_perl \
-             -Dvendorarch=/usr/lib/perl5/5.38/vendor_perl \
-             -Duseshrplib \
-             -Dusethreads
-
-make
-make install
-
-# 11. zlib
-
-cd ~/zlib-1.3.1
-
-./configure --prefix=/usr
-
-make
-make install
-
-# 12. openssl
-
-cd ~/openssl-3.3.0
-
-./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
 
 make
 make install
