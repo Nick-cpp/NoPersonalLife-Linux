@@ -220,11 +220,13 @@ make install
 
 cd ~/Python-3.14.6
 
-./configure --prefix=/usr       \
-            --enable-shared     \
+./configure --prefix=/usr \
+            --enable-shared \
             --with-system-expat \
             --without-ensurepip \
-            --enable-optimizations
+            --enable-optimizations \
+            --with-openssl=/etc/ssl
+            EXTRA_LDFLAGS="-lgcov"
 make
 make install
 
