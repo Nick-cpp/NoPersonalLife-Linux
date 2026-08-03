@@ -31,11 +31,7 @@ cd /mnt
 
 # 1. Downloading the stage archive
 
-wget https://github.com/Nick-cpp/NoPersonalLife-Linux/releases/download/release/stage.tar.xz.part_1
-
-wget https://github.com/Nick-cpp/NoPersonalLife-Linux/releases/download/release/stage.tar.xz.part_2
-
-cat stage.tar.xz.part_* > stage.tar.xz
+wget https://github.com/Nick-cpp/NoPersonalLife-Linux/releases/download/release/stage.tar.xz
 
 # 2. Extracting the stage archive
 
@@ -65,25 +61,41 @@ tar -xf gawk-5.3.1.tar.xz
 wget https://github.com/libexpat/libexpat/releases/download/R_2_6_2/expat-2.6.2.tar.xz
 tar -xf expat-2.6.2.tar.xz
 
-# 6. python
+# 6. pkgconf
+wget https://github.com/pkgconf/pkgconf/releases/download/pkgconf-3.0.4/pkgconf-3.0.4.tar.xz
+tar -xf pkgconf-3.0.4.tar.xz 
+
+# 7. ncurses
+wget https://ftp.gnu.org/gnu/ncurses/ncurses-6.6.tar.gz
+tar -xf ncurses-6.5.tar.gz
+
+# 8. python
 wget https://www.python.org/ftp/python/3.14.6/Python-3.14.6.tar.xz
 tar -xf Python-3.14.6.tar.xz
 
-# 7. grub
+# 9. grub
 wget https://ftp.gnu.org/gnu/grub/grub-2.12.tar.xz
 tar -xf grub-2.12.tar.xz
 
-# 8. perl
+# 10. perl
 wget https://www.cpan.org/src/5.0/perl-5.38.2.tar.gz
 tar -xf perl-5.38.2.tar.gz
 
-# 9. zlib
+# 11. zlib
 wget https://github.com/madler/zlib/releases/download/v1.3.1/zlib-1.3.1.tar.gz
 tar -xf zlib-1.3.1.tar.gz
 
-# 10. openssl
+# 12. openssl
 wget https://github.com/openssl/openssl/releases/download/openssl-3.3.0/openssl-3.3.0.tar.gz
 tar -xf openssl-3.3.0.tar.gz
+
+# 13. bash
+wget https://ftp.gnu.org/gnu/bash/bash-5.3.tar.gz
+tar -xf bash-5.3.tar.gz
+
+# 14. util-linux
+wget https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-2.42.2.tar.xz
+tar -xf util-linux-2.42.2.tar.xz
 
 ### 4. Chrooting into the system
 
@@ -138,7 +150,36 @@ cd ~/expat-2.6.2
 make
 make install
 
-# 6. Python
+# 6. Pkgconf
+
+cd ~/pkgconf-3.0.4
+
+./configure --prefix=/usr \
+            --sysconfdir=/etc \
+            --disable-static
+
+make
+make install
+
+ln -sv pkgconf /usr/bin/pkg-config
+
+# 7. Ncurses
+
+cd ~/ncurses-6.6
+
+./configure --prefix=/usr \
+            --mandir=/usr/share/man \
+            --with-shared \
+            --without-debug \
+            --without-ada \
+            --enable-widec \
+            --enable-pc-files \
+            --with-pkg-config-libdir=/usr/lib/pkgconfig
+
+make
+make install
+
+# 8. Python
 
 cd ~/Python-3.14.6
 
@@ -150,7 +191,7 @@ cd ~/Python-3.14.6
 make
 make install
 
-# 7. Grub
+# 9. Grub
 
 cd ~/grub-2.12/
 
@@ -166,7 +207,7 @@ touch grub-core/extra_deps.lst
 make
 make install
 
-# 8. perl
+# 10. perl
 
 cd ~/perl-5.38.2
 
@@ -185,7 +226,7 @@ sh Configure -des \
 make
 make install
 
-# 9. zlib
+# 11. zlib
 
 cd ~/zlib-1.3.1
 
@@ -194,11 +235,41 @@ cd ~/zlib-1.3.1
 make
 make install
 
-# 10. openssl
+# 12. openssl
 
 cd ~/openssl-3.3.0
 
 ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
+
+make
+make install
+
+# 13. Bash
+
+cd ~/bash-5.3
+
+./configure --prefix=/usr \
+            --bindir=/bin \
+            --without-bash-malloc \
+            --disable-nls
+
+make
+make install
+
+# 14. Util-linux
+
+cd ~/util-linux-2.42.2
+
+./configure --prefix=/usr \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --disable-nls \
+            --disable-pam \
+            --disable-systemd \
+            --disable-chroot \
+            --disable-login \
+            --disable-su \
+            --disable-use-tty-group
 
 make
 make install
