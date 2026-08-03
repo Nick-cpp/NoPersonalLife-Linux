@@ -16,6 +16,8 @@ mkfs.ext4 /dev/root-partition
 
 # 3. Mounting partitions
 
+mkdir /mnt
+
 mount /dev/root-partition /mnt
 
 mkdir /mnt/efi
@@ -73,15 +75,15 @@ tar -xf grub-2.12.tar.xz
 
 # 8. perl
 wget https://www.cpan.org/src/5.0/perl-5.38.2.tar.gz
-tar -xvf perl-5.38.2.tar.gz
+tar -xf perl-5.38.2.tar.gz
 
 # 9. zlib
 wget https://github.com/madler/zlib/releases/download/v1.3.1/zlib-1.3.1.tar.gz
-tar -xvf zlib-1.3.1.tar.gz
+tar -xf zlib-1.3.1.tar.gz
 
 # 10. openssl
 wget https://github.com/openssl/openssl/releases/download/openssl-3.3.0/openssl-3.3.0.tar.gz
-tar -xvf openssl-3.3.0.tar.gz
+tar -xf openssl-3.3.0.tar.gz
 
 ### 4. Chrooting into the system
 
@@ -154,7 +156,7 @@ cd ~/grub-2.12/
 
 ./configure --prefix=/usr          \
              --sysconfdir=/etc      \
-             -localstatedir=/var   \
+             --localstatedir=/var   \
              --disable-werror       \
              --with-platform=efi    \
              CFLAGS="-Wno-error=implicit-function-declaration -Wno-error=int-conversion -std=gnu17"
@@ -232,4 +234,4 @@ umount /mnt/dev
 umount /mnt/efi
 umount /mnt
 
-reboot
+reboot -f
