@@ -1,6 +1,10 @@
 # NoPersonalLife Linux
 
+---
+
 <img width="400" height="400" alt="image" src="https://github.com/user-attachments/assets/a2f3ebcc-8405-400e-8a58-c0d6d98378ff" />
+
+---
 
 > **The ultimate minimal distribution for those who have better things to do than touch grass—like compiling everything from scratch.**
 
