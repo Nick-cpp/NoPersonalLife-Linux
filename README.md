@@ -8,7 +8,7 @@
 
 **NoPersonalLife Linux** is a lightweight, bare-bones Linux distribution built entirely from source. Built around the strict principles of **KISS (Keep It Simple, Stupid)** and extreme minimalism, this distribution strips away all unnecessary bloat, modern desktop clutter, and background noise to give you full, raw control over your operating system.
 
-It isn't designed to be friendly, automatic, or cozy. It's built for those who want a completely custom, transparent environment built with their own two hands—even if it means spending late nights fixing custom shell initialization scripts.
+It isn't designed to be friendly, automatic, or cozy. It's built for those who want a completely custom, transparent environment built with their own two hands.
 
 ---
 
