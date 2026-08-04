@@ -237,7 +237,7 @@ cd ~/Python-3.14.6
             --with-system-expat \
             --without-ensurepip \
             --enable-optimizations \
-            --with-openssl=/etc/ssl
+            --with-openssl=/etc/ssl \
             EXTRA_LDFLAGS="-lgcov"
 make
 make install
