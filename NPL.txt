@@ -8,7 +8,7 @@ Create an 256mb EFI partition
 Swap partiton ( if you want swap partition )
 Root partition
 
-# 2. Formating partitions
+# 2. Formatting partitions
 
 mkfs.fat -F 32 /dev/efi-pertition
 mkswap /dev/swap-partition ( if created )
@@ -111,7 +111,7 @@ tar -xf 18.tar.gz
 
 ### 4. Chrooting into the system
 
-# 1. Prepating for chroot
+# 1. Preparing for chroot
 
 mount -o bind /dev /mnt/dev
 mkdir /mnt/dev/pts
@@ -315,7 +315,7 @@ make EFIDIR=NoPersonalLife-Linux MANDOC=true install
 
 1. Installing grub the bootloader
 
-# If youre using not NoPersonalLife-Linux.iso as a host system you must do this
+# If you're using not NoPersonalLife-Linux.iso as a host system you must do this
 mkdir -p /sys/firmware/efi/efivars
 mount -t efivarfs efivarfs /sys/firmware/efi/efivars
 
@@ -335,6 +335,9 @@ passwd
 exit
 
 cd
+
+# If you're using not NoPersonalLife-Linux.iso as a host system you must do this
+umount /mnt/sys/firmware/efi/efivars
 
 umount /mnt/run
 umount /mnt/sys
