@@ -97,6 +97,18 @@ tar -xf bash-5.3.tar.gz
 wget https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-2.42.2.tar.xz
 tar -xf util-linux-2.42.2.tar.xz
 
+# 15. efivar
+wget https://github.com/rhboot/efivar/archive/refs/tags/39.tar.gz
+tar -xf 39.tar.gz
+
+# 16. popt
+wget https://ftp.osuosl.org/pub/rpm/popt/releases/popt-1.x/popt-1.19.tar.gz
+tar -xf popt-1.19.tar.gz 
+
+# 17. efibootmgr
+wget https://github.com/rhboot/efibootmgr/archive/refs/tags/18.tar.gz
+tar -xf 18.tar.gz
+
 ### 4. Chrooting into the system
 
 # 1. Preparing for chroot
@@ -276,11 +288,37 @@ cd ~/util-linux-2.42.2
 make
 make install
 
+# 15. efivar
+
+cd ~/efivar-39
+
+make CFLAGS="-Wno-error" MANDOC=true
+make install MANDOC=true
+
+# 16. popt
+
+cd ~/popt-1.19
+
+./configure --prefix=/usr --disable-static
+
+make
+make install
+
+# 17. efibootmgr
+
+cd ~/efibootmgr-18
+
+make EFIDIR=NoPersonalLife-Linux
+make EFIDIR=NoPersonalLife-Linux MANDOC=true install
+
 ### 6. Making the system bootable
 
 1. Installing grub the bootloader
 
-grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB --removable --recheck
+mkdir -p /sys/firmware/efi/efivars
+mount -t efivarfs efivarfs /sys/firmware/efi/efivars
+
+grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=NoPersonalLife-Linux --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # 2. Write the fstab
@@ -297,7 +335,6 @@ exit
 
 cd
 
-# If you're using not NoPersonalLife-Linux.iso as a host system you must do this
 umount /mnt/sys/firmware/efi/efivars
 
 umount /mnt/run
