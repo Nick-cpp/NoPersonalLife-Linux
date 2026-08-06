@@ -248,6 +248,7 @@ cd ~/grub-2.14/
 
 ./configure --prefix=/usr          \
              --sysconfdir=/etc      \
+             --libdir=/usr/lib       \
              --localstatedir=/var   \
              --disable-werror       \
              --with-platform=efi    \
