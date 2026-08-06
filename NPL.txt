@@ -251,9 +251,6 @@ cd ~/grub-2.14/
              --localstatedir=/var   \
              --disable-werror       \
              --with-platform=efi    \
-             CFLAGS="-Wno-error=implicit-function-declaration -Wno-error=int-conversion -std=gnu17"
-
-touch grub-core/extra_deps.lst
 
 make
 make install
