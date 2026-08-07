@@ -333,6 +333,8 @@ exit
 
 cd
 
+chown -R root /mnt
+
 umount /mnt/sys/firmware/efi/efivars
 
 umount /mnt/run
