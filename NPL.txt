@@ -343,4 +343,4 @@ umount /mnt/dev
 umount /mnt/efi
 umount /mnt
 
-reboot -f
+reboot
