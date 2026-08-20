@@ -346,3 +346,13 @@ umount /mnt/efi
 umount /mnt
 
 reboot
+
+### 8. Ending
+
+Put your service scripts in /etc/npl-init/sv
+
+Also use the /etc/npl-init/sv/DEFAULT file to setup their autostart
+
+npl-init repository: https://github.com/Nick-cpp/npl-init
+
+Thanks for using NoPersonalLife Linux!
