@@ -1,0 +1,165 @@
+### 1. Partitioning the disk and mounting the partitions
+
+# 1. Partitioning the disk using cfdisk
+
+cfdisk /dev/your-disk
+
+Create an 256mb EFI partition
+Swap partiton ( if you want swap partition )
+Root partition
+
+# 2. Formatting partitions
+
+mkfs.fat -F 32 /dev/efi-pertition
+mkswap /dev/swap-partition ( if created )
+mkfs.ext4 /dev/root-partition
+
+# 3. Mounting partitions
+
+mkdir /mnt
+
+mount /dev/root-partition /mnt
+
+mkdir /mnt/efi
+
+mount /dev/efi-partition /mnt/efi
+swapon /dev/swap-partition ( if created )
+
+cd /mnt
+
+### 2. Downloadng and extracting the stage archive with the base system
+
+# 1. Downloading the stage archive
+
+wget https://github.com/Nick-cpp/NoPersonalLife-Linux/releases/download/release/stage.tar.xz
+
+# 2. Extracting the stage archive
+
+tar -xJvf stage.tar.xz
+
+### 3. Downloading and extracting needed packages
+
+cd /mnt/root
+
+# 1. util-linux
+wget https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-2.42.2.tar.xz
+tar -xf util-linux-2.42.2.tar.xz
+
+# 2. efivar
+wget https://github.com/rhboot/efivar/archive/refs/tags/39.tar.gz
+tar -xf 39.tar.gz
+
+# 3. popt
+wget https://ftp.osuosl.org/pub/rpm/popt/releases/popt-1.x/popt-1.19.tar.gz
+tar -xf popt-1.19.tar.gz 
+
+# 4. efibootmgr
+wget https://github.com/rhboot/efibootmgr/archive/refs/tags/18.tar.gz
+tar -xf 18.tar.gz
+
+### 4. Chrooting into the system
+
+# 1. Preparing for chroot
+
+mount -o bind /dev /mnt/dev
+mkdir /mnt/dev/pts
+mount -o bind /dev/pts /mnt/dev/pts
+mount -t proc proc /mnt/proc
+mount -t sysfs sysfs /mnt/sys
+mount -t tmpfs tmpfs /mnt/run 
+
+# 2. Chrooting
+
+chroot /mnt /bin/sh
+source /etc/profile
+
+### 5. Building and installing the packages
+
+# 1. Util-linux
+
+cd ~/util-linux-2.42.2
+
+./configure --prefix=/usr \
+            --sysconfdir=/etc \
+            --localstatedir=/var \
+            --disable-nls \
+            --disable-pam \
+            --disable-systemd \
+            --disable-chroot \
+            --disable-login \
+            --disable-su \
+            --disable-use-tty-group
+
+make
+make install
+
+# 2. efivar
+
+cd ~/efivar-39
+
+make CFLAGS="-Wno-error" MANDOC=true
+make install MANDOC=true
+
+# 3. popt
+
+cd ~/popt-1.19
+
+./configure --prefix=/usr --disable-static
+
+make
+make install
+
+# 4. efibootmgr
+
+cd ~/efibootmgr-18
+
+make EFIDIR=NoPersonalLife-Linux
+make EFIDIR=NoPersonalLife-Linux MANDOC=true install
+
+### 6. Making the system bootable
+
+1. Installing grub the bootloader
+
+mkdir -p /sys/firmware/efi/efivars
+mount -t efivarfs efivarfs /sys/firmware/efi/efivars
+
+grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=NoPersonalLife-Linux --recheck
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# 2. Write the fstab
+
+### 7. Final steps
+
+# 1. Installing a password for root
+
+passwd
+
+# 2. exiting and rebooting
+
+exit
+
+cd
+
+chown -R root /mnt
+
+umount /mnt/sys/firmware/efi/efivars
+
+umount /mnt/run
+umount /mnt/sys
+umount /mnt/proc
+umount /mnt/dev/pts
+umount /mnt/dev
+umount /mnt/efi
+umount /mnt
+
+reboot
+
+### 8. Ending
+
+Put your service scripts in /etc/npl-init/sv
+
+Also use the /etc/npl-init/sv/DEFAULT file to setup their autostart
+
+npl-init repository: https://github.com/Nick-cpp/npl-init
+
+Thanks for using NoPersonalLife Linux!
