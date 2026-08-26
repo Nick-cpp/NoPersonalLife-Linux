@@ -251,7 +251,7 @@ cd ~/grub-2.14/
              --libdir=/usr/lib       \
              --localstatedir=/var   \
              --disable-werror       \
-             --with-platform=efi    \
+             --with-platform=efi
 
 make
 make install
