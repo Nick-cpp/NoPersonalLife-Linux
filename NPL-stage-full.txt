@@ -52,6 +52,9 @@ mount -t tmpfs tmpfs /mnt/run
 chroot /mnt /bin/sh
 source /etc/profile
 
+chown -R root /
+chmod 1777 /mnt
+
 ### 4. Making the system bootable
 
 1. Installing grub the bootloader
@@ -75,8 +78,6 @@ passwd
 exit
 
 cd
-
-chown -R root /mnt
 
 umount /mnt/sys/firmware/efi/efivars
 
