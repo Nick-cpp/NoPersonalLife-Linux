@@ -114,7 +114,6 @@ tar -xf 18.tar.gz
 # 1. Preparing for chroot
 
 mount -o bind /dev /mnt/dev
-mkdir /mnt/dev/pts
 mount -o bind /dev/pts /mnt/dev/pts
 mount -t proc proc /mnt/proc
 mount -t sysfs sysfs /mnt/sys
