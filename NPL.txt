@@ -186,8 +186,7 @@ cd ~/ncurses-6.6
             --without-ada \
             --enable-widec \
             --enable-pc-files \
-            --with-pkg-config-libdir=/usr/lib/pkgconfig \
-            --with-termlib
+            --with-pkg-config-libdir=/usr/lib/pkgconfig
 
 make
 make install
