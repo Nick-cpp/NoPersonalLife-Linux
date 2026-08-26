@@ -31,11 +31,11 @@ cd /mnt
 
 # 1. Downloading the stage archive
 
-wget https://github.com/Nick-cpp/NoPersonalLife-Linux/releases/download/release/stage.tar.xz
+wget https://github.com/Nick-cpp/NoPersonalLife-Linux/releases/download/release/stage-full.tar.xz
 
 # 2. Extracting the stage archive
 
-tar -xJvf stage.tar.xz
+tar -xJvf stage-full.tar.xz
 
 ### 3. Downloading and extracting needed packages
 
