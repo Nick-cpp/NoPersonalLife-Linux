@@ -37,27 +37,7 @@ wget https://github.com/Nick-cpp/NoPersonalLife-Linux/releases/download/release/
 
 tar -xJvf stage-full.tar.xz
 
-### 3. Downloading and extracting needed packages
-
-cd /mnt/root
-
-# 1. util-linux
-wget https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-2.42.2.tar.xz
-tar -xf util-linux-2.42.2.tar.xz
-
-# 2. efivar
-wget https://github.com/rhboot/efivar/archive/refs/tags/39.tar.gz
-tar -xf 39.tar.gz
-
-# 3. popt
-wget https://ftp.osuosl.org/pub/rpm/popt/releases/popt-1.x/popt-1.19.tar.gz
-tar -xf popt-1.19.tar.gz 
-
-# 4. efibootmgr
-wget https://github.com/rhboot/efibootmgr/archive/refs/tags/18.tar.gz
-tar -xf 18.tar.gz
-
-### 4. Chrooting into the system
+### 3. Chrooting into the system
 
 # 1. Preparing for chroot
 
@@ -73,50 +53,7 @@ mount -t tmpfs tmpfs /mnt/run
 chroot /mnt /bin/sh
 source /etc/profile
 
-### 5. Building and installing the packages
-
-# 1. Util-linux
-
-cd ~/util-linux-2.42.2
-
-./configure --prefix=/usr \
-            --sysconfdir=/etc \
-            --localstatedir=/var \
-            --disable-nls \
-            --disable-pam \
-            --disable-systemd \
-            --disable-chroot \
-            --disable-login \
-            --disable-su \
-            --disable-use-tty-group
-
-make
-make install
-
-# 2. efivar
-
-cd ~/efivar-39
-
-make CFLAGS="-Wno-error" MANDOC=true
-make install MANDOC=true
-
-# 3. popt
-
-cd ~/popt-1.19
-
-./configure --prefix=/usr --disable-static
-
-make
-make install
-
-# 4. efibootmgr
-
-cd ~/efibootmgr-18
-
-make EFIDIR=NoPersonalLife-Linux
-make EFIDIR=NoPersonalLife-Linux MANDOC=true install
-
-### 6. Making the system bootable
+### 4. Making the system bootable
 
 1. Installing grub the bootloader
 
@@ -128,7 +65,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # 2. Write the fstab
 
-### 7. Final steps
+### 5. Final steps
 
 # 1. Installing a password for root
 
@@ -154,7 +91,7 @@ umount /mnt
 
 reboot
 
-### 8. Ending
+### 6. Ending
 
 Put your service scripts in /etc/npl-init/sv
 
