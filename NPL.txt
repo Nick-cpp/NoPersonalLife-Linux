@@ -124,6 +124,9 @@ mount -t tmpfs tmpfs /mnt/run
 chroot /mnt /bin/sh
 source /etc/profile
 
+chown -R root /
+chmod 1777 /mnt
+
 ### 5. Building and installing the packages
 
 # 1. M4
@@ -331,8 +334,6 @@ passwd
 exit
 
 cd
-
-chown -R root /mnt
 
 umount /mnt/sys/firmware/efi/efivars
 
