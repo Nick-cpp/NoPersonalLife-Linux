@@ -53,7 +53,7 @@ chroot /mnt /bin/sh
 source /etc/profile
 
 chown -R root /
-chmod 1777 /mnt
+chmod 1777 /tmp
 
 ### 4. Making the system bootable
 
