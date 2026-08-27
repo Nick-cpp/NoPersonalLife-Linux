@@ -16,7 +16,7 @@ mkfs.ext4 /dev/root-partition
 
 # 3. Mounting partitions
 
-mkdir /mnt
+mkdir /tmp
 
 mount /dev/root-partition /mnt
 
