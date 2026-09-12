@@ -31,7 +31,7 @@ It isn't designed to be friendly, automatic, or cozy. It's built for those who w
 
 * **Base Toolchain & Core:** Built directly from source using GNU C Library (`glibc`) and `BusyBox` for core userland utilities.
 * **Init System:** Custom, hand-written minimalist shell initialization framework—no complex service managers required.
-* **Package Management:** Fully manual.
+* **Package Management:** Fully manual. ( mspm package manager is coming soon )
 
 ---
 
