@@ -49,7 +49,7 @@ mount -t tmpfs tmpfs /mnt/run
 
 # 2. Chrooting
 
-chroot /mnt /bin/bash
+chroot /mnt /bin/sh
 source /etc/profile
 
 chown -R root /
@@ -57,7 +57,7 @@ chmod 1777 /tmp
 
 ### 4. Building and installing needed packages
 
-mspm install m4 flex bison gawk libexpat pkgconf ncurses perl zlib openssl python util-linux popt efivar efibootmgr grub
+mspm install m4 flex bison gawk libexpat pkgconf ncurses bash perl zlib openssl python util-linux popt efivar efibootmgr grub
 
 ### 5. Making the system bootable
 
