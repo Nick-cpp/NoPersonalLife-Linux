@@ -37,79 +37,7 @@ wget https://github.com/Nick-cpp/NoPersonalLife-Linux/releases/download/release/
 
 tar -xJvf stage.tar.xz
 
-### 3. Downloading and extracting needed packages
-
-cd /mnt/root
-
-# 1. m4
-wget https://ftp.gnu.org/gnu/m4/m4-1.4.21.tar.xz
-tar -xf m4-1.4.21.tar.xz
-
-# 2. flex
-wget https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
-tar -xf flex-2.6.4.tar.gz
-
-# 3. bison
-wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.xz
-tar -xf bison-3.8.2.tar.xz
-
-# 4. gawk
-wget https://ftp.gnu.org/gnu/gawk/gawk-5.4.1.tar.xz
-tar -xf gawk-5.4.1.tar.xz
-
-# 5. libexpat
-wget https://github.com/libexpat/libexpat/releases/download/R_2_8_2/expat-2.8.2.tar.xz
-tar -xf expat-2.8.2.tar.xz
-
-# 6. pkgconf
-wget https://github.com/pkgconf/pkgconf/releases/download/pkgconf-3.0.4/pkgconf-3.0.4.tar.xz
-tar -xf pkgconf-3.0.4.tar.xz 
-
-# 7. ncurses
-wget https://ftp.gnu.org/gnu/ncurses/ncurses-6.6.tar.gz
-tar -xf ncurses-6.6.tar.gz
-
-# 8. perl
-wget https://www.cpan.org/src/5.0/perl-5.44.0.tar.gz
-tar -xf perl-5.44.0.tar.gz
-
-# 9. zlib
-wget https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.gz
-tar -xf zlib-1.3.2.tar.gz
-
-# 10. openssl
-wget https://github.com/openssl/openssl/releases/download/openssl-4.0.1/openssl-4.0.1.tar.gz
-tar -xf openssl-4.0.1.tar.gz
-
-# 11. python
-wget https://www.python.org/ftp/python/3.14.6/Python-3.14.6.tar.xz
-tar -xf Python-3.14.6.tar.xz
-
-# 12. grub
-wget https://ftp.gnu.org/gnu/grub/grub-2.14.tar.xz
-tar -xf grub-2.14.tar.xz
-
-# 13. bash
-wget https://ftp.gnu.org/gnu/bash/bash-5.3.tar.gz
-tar -xf bash-5.3.tar.gz
-
-# 14. util-linux
-wget https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-2.42.2.tar.xz
-tar -xf util-linux-2.42.2.tar.xz
-
-# 15. efivar
-wget https://github.com/rhboot/efivar/archive/refs/tags/39.tar.gz
-tar -xf 39.tar.gz
-
-# 16. popt
-wget https://ftp.osuosl.org/pub/rpm/popt/releases/popt-1.x/popt-1.19.tar.gz
-tar -xf popt-1.19.tar.gz 
-
-# 17. efibootmgr
-wget https://github.com/rhboot/efibootmgr/archive/refs/tags/18.tar.gz
-tar -xf 18.tar.gz
-
-### 4. Chrooting into the system
+### 3. Chrooting into the system
 
 # 1. Preparing for chroot
 
@@ -121,197 +49,17 @@ mount -t tmpfs tmpfs /mnt/run
 
 # 2. Chrooting
 
-chroot /mnt /bin/sh
+chroot /mnt /bin/bash
 source /etc/profile
 
 chown -R root /
 chmod 1777 /tmp
 
-### 5. Building and installing the packages
+### 4. Building and installing needed packages
 
-# 1. M4
+mspm install m4 flex bison gawk libexpat pkgconf ncurses perl zlib openssl python util-linux popt efivar efibootmgr grub
 
-cd ~/m4-1.4.21/
-./configure --prefix=/usr
-make
-make install
-
-# 2. Flex
-
-cd ~/flex-2.6.4/
-LEX=: ./configure --prefix=/usr
-make
-make install
-
-# 3. Bison
-
-cd ~/bison-3.8.2/
-./configure --prefix=/usr
-make
-make install
-
-# 4. Gawk
-
-cd ~/gawk-5.4.1/
-./configure --prefix=/usr
-make
-make install
-
-# 5. Libexpat
-
-cd ~/expat-2.8.2
-./configure --prefix=/usr
-make
-make install
-
-# 6. Pkgconf
-
-cd ~/pkgconf-3.0.4
-
-./configure --prefix=/usr \
-            --sysconfdir=/etc \
-            --disable-static
-
-make
-make install
-
-ln -sv pkgconf /usr/bin/pkg-config
-
-# 7. Ncurses
-
-cd ~/ncurses-6.6
-
-./configure --prefix=/usr \
-            --mandir=/usr/share/man \
-            --with-shared \
-            --without-debug \
-            --without-ada \
-            --enable-widec \
-            --enable-pc-files \
-            --with-pkg-config-libdir=/usr/lib/pkgconfig \
-            --disable-static
-
-make
-make install
-
-# 8. perl
-
-cd ~/perl-5.44.0
-
-sh Configure -des \
-             -Dprefix=/usr \
-             -Dvendorprefix=/usr \
-             -Dprivlib=/usr/lib/perl5/5.44/core_perl \
-             -Darchlib=/usr/lib/perl5/5.44/core_perl \
-             -Dsitelib=/usr/lib/perl5/5.44/site_perl \
-             -Dsitearch=/usr/lib/perl5/5.44/site_perl \
-             -Dvendorlib=/usr/lib/perl5/5.44/vendor_perl \
-             -Dvendorarch=/usr/lib/perl5/5.44/vendor_perl \
-             -Duseshrplib \
-             -Dusethreads
-
-make
-make install
-
-# 9. zlib
-
-cd ~/zlib-1.3.2
-
-./configure --prefix=/usr
-
-make
-make install
-
-# 10. openssl
-
-cd ~/openssl-4.0.1
-
-./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
-
-make
-make install
-
-# 11. Python
-
-cd ~/Python-3.14.6
-
-./configure --prefix=/usr \
-            --enable-shared \
-            --with-system-expat \
-            --without-ensurepip \
-            --enable-optimizations \
-            --with-openssl=/etc/ssl \
-            EXTRA_LDFLAGS="-lgcov"
-make
-make install
-
-# 12. Grub
-
-cd ~/grub-2.14/
-
-./configure --prefix=/usr          \
-             --sysconfdir=/etc      \
-             --libdir=/usr/lib       \
-             --localstatedir=/var   \
-             --disable-werror       \
-             --with-platform=efi
-
-make
-make install
-
-# 13. Bash
-
-cd ~/bash-5.3
-
-./configure --prefix=/usr \
-            --bindir=/bin \
-            --without-bash-malloc
-
-make
-make install
-
-# 14. Util-linux
-
-cd ~/util-linux-2.42.2
-
-./configure --prefix=/usr \
-            --sysconfdir=/etc \
-            --localstatedir=/var \
-            --disable-nls \
-            --disable-pam \
-            --disable-systemd \
-            --disable-chroot \
-            --disable-login \
-            --disable-su \
-            --disable-use-tty-group
-
-make
-make install
-
-# 15. efivar
-
-cd ~/efivar-39
-
-make CFLAGS="-Wno-error" MANDOC=true
-make install MANDOC=true
-
-# 16. popt
-
-cd ~/popt-1.19
-
-./configure --prefix=/usr --disable-static
-
-make
-make install
-
-# 17. efibootmgr
-
-cd ~/efibootmgr-18
-
-make EFIDIR=NoPersonalLife-Linux
-make EFIDIR=NoPersonalLife-Linux MANDOC=true install
-
-### 6. Making the system bootable
+### 5. Making the system bootable
 
 1. Installing grub the bootloader
 
@@ -323,7 +71,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # 2. Write the fstab
 
-### 7. Final steps
+### 6. Final steps
 
 # 1. Installing a password for root
 
@@ -347,7 +95,7 @@ umount /mnt
 
 reboot
 
-### 8. Ending
+### 7. Ending
 
 Put your service scripts in /etc/npl-init/sv
 
