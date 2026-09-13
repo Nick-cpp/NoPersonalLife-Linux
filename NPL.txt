@@ -133,4 +133,6 @@ Also use the /etc/npl-init/sv/DEFAULT file to setup their autostart
 
 npl-init repository: https://github.com/Nick-cpp/npl-init
 
+mspm repository: https://github.com/Nick-cpp/mspm
+
 Thanks for using NoPersonalLife Linux!
