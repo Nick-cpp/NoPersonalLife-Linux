@@ -6,7 +6,7 @@
 
 ---
 
-> **The ultimate minimal distribution for those who have better things to do than touch grass—like compiling everything from scratch.**
+> **The ultimate minimal distribution for those who have better things to do than touch grass—like compiling everything from source.**
 
 ---
 
