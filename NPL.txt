@@ -265,8 +265,7 @@ cd ~/bash-5.3
 
 ./configure --prefix=/usr \
             --bindir=/bin \
-            --without-bash-malloc \
-            --disable-nls
+            --without-bash-malloc
 
 make
 make install
