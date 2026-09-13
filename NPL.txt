@@ -72,7 +72,11 @@ cd bash-5.3/
 make
 make install
 
-# 2. Installing needed packages via mspm
+# 2. Sync the mspm repository
+
+mspm sync
+
+# 3. Installing needed packages via mspm
 
 mspm install m4 flex bison gawk libexpat pkgconf ncurses bash perl zlib openssl python util-linux popt efivar efibootmgr grub
 
