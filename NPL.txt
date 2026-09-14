@@ -54,7 +54,6 @@ source /etc/profile
 
 chown -R root /
 chmod 1777 /tmp
-chmod -R 755 /dev
 chmod 4755 /bin/busybox
 
 ### 4. Building and installing needed packages
