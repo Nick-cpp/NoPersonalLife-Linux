@@ -16,8 +16,6 @@ mkfs.ext4 /dev/root-partition
 
 # 3. Mounting partitions
 
-mkdir /mnt
-
 mount /dev/root-partition /mnt
 
 mkdir /mnt/efi
@@ -88,7 +86,7 @@ MAKEFLAGS="${MAKEFLAGS} -j8"
 
 # 4. Installing needed packages via mspm
 
-mspm install m4 flex bison pkgconf gawk ncurses bash zlib perl busybox npl-init openssl libexpat python util-linux popt efivar efibootmgr grub
+mspm install m4 flex bison pkgconf gawk ncurses bash zlib perl busybox npl-init openssl libexpat python kernel-bin util-linux popt efivar efibootmgr grub
 
 ### 5. Making the system bootable
 
