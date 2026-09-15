@@ -77,14 +77,18 @@ cd
 
 mspm sync
 
-# 3. Configure compile options in /etc/mspm/make.conf
+# 3. Upgrade packages in your system ( optional )
+
+mspm update
+
+# 4. Configure compile options in /etc/mspm/make.conf
 example configuration:
 
 CFLAGS="-march=native -O2 -pipe"
 CXXFLAGS="-march=native -O2 -pipe"
 MAKEFLAGS="${MAKEFLAGS} -j8"
 
-# 4. Installing needed packages via mspm
+# 5. Installing needed packages via mspm
 
 mspm install m4 flex bison pkgconf gawk ncurses bash zlib perl busybox npl-init openssl libexpat python kernel-bin util-linux popt efivar efibootmgr grub
 
