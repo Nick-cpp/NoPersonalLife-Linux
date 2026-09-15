@@ -86,7 +86,7 @@ MAKEFLAGS="${MAKEFLAGS} -j8"
 
 # 4. Installing needed packages via mspm
 
-mspm install m4 flex bison pkgconf gawk ncurses bash zlib perl busybox npl-init openssl libexpat python kernel-bin util-linux libtool autoconf automake po4a xz-utils popt efivar efibootmgr grub
+mspm install m4 flex bison pkgconf gawk ncurses bash zlib perl busybox npl-init openssl libexpat python kernel-bin util-linux libtool autoconf automake perl-module-build po4a xz-utils popt efivar efibootmgr grub
 
 # 5. Upgrade packages in your system ( optional )
 
