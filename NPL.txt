@@ -86,9 +86,19 @@ MAKEFLAGS="${MAKEFLAGS} -j8"
 
 # 4. Installing needed packages via mspm
 
-mspm install m4 flex bison pkgconf gawk ncurses bash zlib perl busybox npl-init openssl libexpat python util-linux libtool autoconf automake gettext kernel-bin popt efivar efibootmgr grub
+mspm install m4 flex bison pkgconf gawk ncurses bash zlib perl busybox npl-init openssl libexpat python util-linux libtool autoconf automake gettext popt efivar efibootmgr grub
 
-# 5. Upgrade packages in your system ( optional )
+# 5. Installing the NPL-Linux kernel
+
+binary kernel:
+
+mspm install kernel-bin
+
+compile kernel:
+
+mspm install elfutils kernel
+
+# 6. Upgrade packages in your system ( optional )
 
 mspm update
 
