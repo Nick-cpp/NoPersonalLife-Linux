@@ -98,7 +98,17 @@ compile kernel:
 
 mspm install elfutils kernel
 
-# 6. Upgrade packages in your system ( optional )
+# 6. Installing network daemon
+
+dhcpcd:
+
+mspm install dhcpcd
+
+Enabling the service:
+
+echo "dhcpcd" >> /etc/npl-init/sv/DEFAULT
+
+# 7. Upgrade packages in your system ( optional )
 
 mspm update
 
